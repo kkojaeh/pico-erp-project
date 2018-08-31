@@ -12,19 +12,5 @@ dependencies {
 
   compile("com.github.kkojaeh.pico-erp-shared:shared-impl:${sharedVersion}")
 
-  testRuntimeOnly project(':project-test-cfg')
-
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-user:user-impl:${userVersion}")
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-user:user-test-cfg:${userVersion}")
-
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-company:company-impl:${companyVersion}")
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-company:company-test-cfg:${companyVersion}")
-
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-audit:audit-impl:${auditVersion}")
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-audit:audit-test-cfg:${auditVersion}")
-
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-item:item-impl:${itemVersion}")
-  testRuntimeOnly("com.github.kkojaeh.pico-erp-item:item-test-cfg:${itemVersion}")
-
 }
 
