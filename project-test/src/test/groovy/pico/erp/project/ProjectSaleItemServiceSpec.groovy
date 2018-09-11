@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional
 import pico.erp.company.data.CompanyId
 import pico.erp.item.data.ItemId
 import pico.erp.project.data.ProjectId
-import pico.erp.project.data.ProjectSaleItemId
+import pico.erp.project.sale.item.ProjectSaleItemRequests
+import pico.erp.project.sale.item.ProjectSaleItemService
+import pico.erp.project.sale.item.data.ProjectSaleItemId
 import pico.erp.shared.IntegrationConfiguration
 import pico.erp.shared.data.Contact
 import pico.erp.user.data.UserId
