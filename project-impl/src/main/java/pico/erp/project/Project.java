@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import pico.erp.attachment.data.AttachmentId;
 import pico.erp.audit.annotation.Audit;
-import pico.erp.comment.data.CommentSubjectId;
+import pico.erp.comment.subject.data.CommentSubjectId;
 import pico.erp.company.data.CompanyData;
 import pico.erp.project.ProjectEvents.CreatedEvent;
 import pico.erp.project.ProjectEvents.DeletedEvent;
