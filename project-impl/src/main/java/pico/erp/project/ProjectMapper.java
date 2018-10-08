@@ -54,8 +54,8 @@ public abstract class ProjectMapper {
       .id(entity.getId())
       .name(entity.getName())
       .description(entity.getDescription())
-      .customerData(map(entity.getCustomerId()))
-      .managerData(map(entity.getManagerId()))
+      .customer(map(entity.getCustomerId()))
+      .manager(map(entity.getManagerId()))
       .customerManagerContact(entity.getCustomerManagerContact())
       .commentSubjectId(entity.getCommentSubjectId())
       .attachmentId(entity.getAttachmentId())
@@ -71,20 +71,26 @@ public abstract class ProjectMapper {
   }
 
   @Mappings({
-    @Mapping(target = "customerId", source = "customerData.id"),
-    @Mapping(target = "managerId", source = "managerData.id")
+    @Mapping(target = "customerId", source = "customer.id"),
+    @Mapping(target = "customerName", source = "customer.name"),
+    @Mapping(target = "managerId", source = "manager.id"),
+    @Mapping(target = "managerName", source = "manager.name"),
+    @Mapping(target = "createdBy", ignore = true),
+    @Mapping(target = "createdDate", ignore = true),
+    @Mapping(target = "lastModifiedBy", ignore = true),
+    @Mapping(target = "lastModifiedDate", ignore = true)
   })
-  public abstract ProjectData map(Project project);
+  public abstract ProjectEntity entity(Project project);
 
   @Mappings({
-    @Mapping(target = "customerData", source = "customerId"),
-    @Mapping(target = "managerData", source = "managerId")
+    @Mapping(target = "customer", source = "customerId"),
+    @Mapping(target = "manager", source = "managerId")
   })
   public abstract ProjectMessages.CreateRequest map(CreateRequest request);
 
   @Mappings({
-    @Mapping(target = "customerData", source = "customerId"),
-    @Mapping(target = "managerData", source = "managerId")
+    @Mapping(target = "customer", source = "customerId"),
+    @Mapping(target = "manager", source = "managerId")
   })
   public abstract ProjectMessages.UpdateRequest map(UpdateRequest request);
 
@@ -97,16 +103,10 @@ public abstract class ProjectMapper {
   }
 
   @Mappings({
-    @Mapping(target = "customerId", source = "customerData.id"),
-    @Mapping(target = "customerName", source = "customerData.name"),
-    @Mapping(target = "managerId", source = "managerData.id"),
-    @Mapping(target = "managerName", source = "managerData.name"),
-    @Mapping(target = "createdBy", ignore = true),
-    @Mapping(target = "createdDate", ignore = true),
-    @Mapping(target = "lastModifiedBy", ignore = true),
-    @Mapping(target = "lastModifiedDate", ignore = true)
+    @Mapping(target = "customerId", source = "customer.id"),
+    @Mapping(target = "managerId", source = "manager.id")
   })
-  public abstract ProjectEntity entity(Project project);
+  public abstract ProjectData map(Project project);
 
   public Project map(ProjectId projectId) {
     return projectRepository.findBy(projectId)

@@ -37,9 +37,9 @@ public class Project implements Serializable {
 
   String name;
 
-  CompanyData customerData;
+  CompanyData customer;
 
-  UserData managerData;
+  UserData manager;
 
   Contact customerManagerContact;
 
@@ -56,8 +56,8 @@ public class Project implements Serializable {
     id = request.getId();
     name = request.getName();
     description = request.getDescription();
-    customerData = request.getCustomerData();
-    managerData = request.getManagerData();
+    customer = request.getCustomer();
+    manager = request.getManager();
     customerManagerContact = request.getCustomerManagerContact();
     commentSubjectId = CommentSubjectId.from(id.getValue());
     attachmentId = request.getAttachmentId();
@@ -67,8 +67,8 @@ public class Project implements Serializable {
   public UpdateResponse apply(ProjectMessages.UpdateRequest request) {
     name = request.getName();
     description = request.getDescription();
-    customerData = request.getCustomerData();
-    managerData = request.getManagerData();
+    customer = request.getCustomer();
+    manager = request.getManager();
     customerManagerContact = request.getCustomerManagerContact();
     attachmentId = request.getAttachmentId();
     return new UpdateResponse(Arrays.asList(new UpdatedEvent(this.id)));

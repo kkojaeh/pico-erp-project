@@ -30,11 +30,11 @@ public interface ProjectMessages {
 
     @Valid
     @NotNull
-    CompanyData customerData;
+    CompanyData customer;
 
     @Valid
     @NotNull
-    UserData managerData;
+    UserData manager;
 
     @Valid
     @NotNull
@@ -56,11 +56,11 @@ public interface ProjectMessages {
 
     @Valid
     @NotNull
-    CompanyData customerData;
+    CompanyData customer;
 
     @Valid
     @NotNull
-    UserData managerData;
+    UserData manager;
 
     @Valid
     @NotNull
