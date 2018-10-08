@@ -1,4 +1,4 @@
-package pico.erp.project.jpa;
+package pico.erp.project;
 
 import java.util.Optional;
 import lombok.val;
@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import pico.erp.project.Project;
-import pico.erp.project.ProjectRepository;
-import pico.erp.project.data.ProjectId;
 
 @Repository
 interface ProjectEntityRepository extends CrudRepository<ProjectEntity, ProjectId> {
@@ -23,14 +20,14 @@ public class ProjectRepositoryJpa implements ProjectRepository {
   private ProjectEntityRepository repository;
 
   @Autowired
-  private ProjectJpaMapper mapper;
+  private ProjectMapper mapper;
 
 
   @Override
   public Project create(Project project) {
-    val entity = mapper.map(project);
+    val entity = mapper.entity(project);
     val created = repository.save(entity);
-    return mapper.map(created);
+    return mapper.domain(created);
   }
 
   @Override
@@ -46,13 +43,13 @@ public class ProjectRepositoryJpa implements ProjectRepository {
   @Override
   public Optional<Project> findBy(ProjectId id) {
     return Optional.ofNullable(repository.findOne(id))
-      .map(mapper::map);
+      .map(mapper::domain);
   }
 
   @Override
   public void update(Project project) {
     val entity = repository.findOne(project.getId());
-    mapper.pass(mapper.map(project), entity);
+    mapper.pass(mapper.entity(project), entity);
     repository.save(entity);
   }
 }

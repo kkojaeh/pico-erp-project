@@ -1,4 +1,4 @@
-package pico.erp.project.sale.item.data;
+package pico.erp.project.sale.item;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,8 +8,8 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import pico.erp.item.data.ItemId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.item.ItemId;
+import pico.erp.project.ProjectId;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)

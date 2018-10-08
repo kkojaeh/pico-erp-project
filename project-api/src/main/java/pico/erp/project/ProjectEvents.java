@@ -3,7 +3,6 @@ package pico.erp.project;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pico.erp.project.data.ProjectId;
 import pico.erp.shared.event.Event;
 
 public interface ProjectEvents {

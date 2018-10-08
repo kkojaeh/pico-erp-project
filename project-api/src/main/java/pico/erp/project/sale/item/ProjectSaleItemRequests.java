@@ -8,9 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pico.erp.item.data.ItemId;
-import pico.erp.project.data.ProjectId;
-import pico.erp.project.sale.item.data.ProjectSaleItemId;
+import pico.erp.item.ItemId;
+import pico.erp.project.ProjectId;
 
 public interface ProjectSaleItemRequests {
 

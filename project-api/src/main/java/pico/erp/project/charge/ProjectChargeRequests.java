@@ -7,8 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pico.erp.project.charge.data.ProjectChargeId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.project.ProjectId;
 
 public interface ProjectChargeRequests {
 

@@ -5,8 +5,6 @@ import javax.validation.constraints.NotNull;
 import pico.erp.project.ProjectRequests.CreateRequest;
 import pico.erp.project.ProjectRequests.DeleteRequest;
 import pico.erp.project.ProjectRequests.UpdateRequest;
-import pico.erp.project.data.ProjectData;
-import pico.erp.project.data.ProjectId;
 
 public interface ProjectService {
 

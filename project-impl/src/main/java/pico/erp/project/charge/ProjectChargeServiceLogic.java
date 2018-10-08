@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pico.erp.audit.AuditService;
-import pico.erp.project.ProjectMapper;
-import pico.erp.project.charge.data.ProjectChargeData;
-import pico.erp.project.charge.data.ProjectChargeId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.project.ProjectId;
 import pico.erp.shared.Public;
 import pico.erp.shared.event.EventPublisher;
 
@@ -30,7 +27,7 @@ public class ProjectChargeServiceLogic implements ProjectChargeService {
   private EventPublisher eventPublisher;
 
   @Autowired
-  private ProjectMapper mapper;
+  private ProjectChargeMapper mapper;
 
   @Lazy
   @Autowired

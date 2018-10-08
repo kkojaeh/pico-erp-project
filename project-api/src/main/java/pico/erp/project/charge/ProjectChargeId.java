@@ -1,4 +1,4 @@
-package pico.erp.project.sale.item.data;
+package pico.erp.project.charge;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
@@ -20,7 +20,7 @@ import pico.erp.shared.TypeDefinitions;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "value")
 @ToString
-public class ProjectSaleItemId implements Serializable {
+public class ProjectChargeId implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -29,8 +29,8 @@ public class ProjectSaleItemId implements Serializable {
   @NotNull
   private String value;
 
-  public static ProjectSaleItemId from(@NonNull String value) {
-    return new ProjectSaleItemId(value);
+  public static ProjectChargeId from(@NonNull String value) {
+    return new ProjectChargeId(value);
   }
 
 }

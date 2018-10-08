@@ -3,32 +3,20 @@ package pico.erp.project;
 import java.util.Optional;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import pico.erp.company.CompanyData;
+import pico.erp.company.CompanyId;
 import pico.erp.company.CompanyService;
-import pico.erp.company.data.CompanyData;
-import pico.erp.company.data.CompanyId;
-import pico.erp.item.ItemService;
-import pico.erp.item.data.ItemData;
-import pico.erp.item.data.ItemId;
 import pico.erp.project.ProjectExceptions.NotFoundException;
 import pico.erp.project.ProjectRequests.CreateRequest;
 import pico.erp.project.ProjectRequests.DeleteRequest;
 import pico.erp.project.ProjectRequests.UpdateRequest;
-import pico.erp.project.charge.ProjectCharge;
-import pico.erp.project.charge.ProjectChargeMessages;
-import pico.erp.project.charge.ProjectChargeRequests;
-import pico.erp.project.charge.data.ProjectChargeData;
-import pico.erp.project.data.ProjectData;
-import pico.erp.project.data.ProjectId;
-import pico.erp.project.sale.item.ProjectSaleItem;
-import pico.erp.project.sale.item.ProjectSaleItemMessages;
-import pico.erp.project.sale.item.ProjectSaleItemRequests;
-import pico.erp.project.sale.item.data.ProjectSaleItemData;
+import pico.erp.user.UserData;
+import pico.erp.user.UserId;
 import pico.erp.user.UserService;
-import pico.erp.user.data.UserData;
-import pico.erp.user.data.UserId;
 
 @Mapper
 public abstract class ProjectMapper {
@@ -43,10 +31,11 @@ public abstract class ProjectMapper {
 
   @Lazy
   @Autowired
-  private ItemService itemService;
-
-  @Autowired
   private ProjectRepository projectRepository;
+
+  @Lazy
+  @Autowired
+  private ProjectEntityRepository projectEntityRepository;
 
   protected UserData map(UserId userId) {
     return Optional.ofNullable(userId)
@@ -60,15 +49,25 @@ public abstract class ProjectMapper {
       .orElse(null);
   }
 
-  protected ItemData map(ItemId itemId) {
-    return Optional.ofNullable(itemId)
-      .map(itemService::get)
-      .orElse(null);
-  }
-
-  protected Project map(ProjectId projectId) {
-    return projectRepository.findBy(projectId)
-      .orElseThrow(NotFoundException::new);
+  public Project domain(ProjectEntity entity) {
+    return Project.builder()
+      .id(entity.getId())
+      .name(entity.getName())
+      .description(entity.getDescription())
+      .customerData(map(entity.getCustomerId()))
+      .managerData(map(entity.getManagerId()))
+      .customerManagerContact(entity.getCustomerManagerContact())
+      .commentSubjectId(entity.getCommentSubjectId())
+      .attachmentId(entity.getAttachmentId())
+      /*
+      .charges(
+        entity.getCharges().stream().map(this::map).collect(Collectors.toList())
+      )
+      .saleItems(
+        entity.getSaleItems().stream().map(this::map).collect(Collectors.toList())
+      )
+      */
+      .build();
   }
 
   @Mappings({
@@ -91,40 +90,29 @@ public abstract class ProjectMapper {
 
   public abstract ProjectMessages.DeleteRequest map(DeleteRequest request);
 
-  @Mappings({
-    @Mapping(target = "project", source = "projectId")
-  })
-  public abstract ProjectChargeMessages.CreateRequest map(
-    ProjectChargeRequests.CreateRequest request);
+  public ProjectEntity entity(ProjectId projectId) {
+    return Optional.ofNullable(projectId)
+      .map(projectEntityRepository::findOne)
+      .orElse(null);
+  }
 
   @Mappings({
-    @Mapping(target = "project", source = "projectId"),
-    @Mapping(target = "itemData", source = "itemId")
+    @Mapping(target = "customerId", source = "customerData.id"),
+    @Mapping(target = "customerName", source = "customerData.name"),
+    @Mapping(target = "managerId", source = "managerData.id"),
+    @Mapping(target = "managerName", source = "managerData.name"),
+    @Mapping(target = "createdBy", ignore = true),
+    @Mapping(target = "createdDate", ignore = true),
+    @Mapping(target = "lastModifiedBy", ignore = true),
+    @Mapping(target = "lastModifiedDate", ignore = true)
   })
-  public abstract ProjectSaleItemMessages.CreateRequest map(
-    ProjectSaleItemRequests.CreateRequest request);
+  public abstract ProjectEntity entity(Project project);
 
-  public abstract ProjectChargeMessages.UpdateRequest map(
-    ProjectChargeRequests.UpdateRequest request);
+  public Project map(ProjectId projectId) {
+    return projectRepository.findBy(projectId)
+      .orElseThrow(NotFoundException::new);
+  }
 
-  public abstract ProjectSaleItemMessages.UpdateRequest map(
-    ProjectSaleItemRequests.UpdateRequest request);
-
-  public abstract ProjectChargeMessages.DeleteRequest map(
-    ProjectChargeRequests.DeleteRequest request);
-
-  public abstract ProjectSaleItemMessages.DeleteRequest map(
-    ProjectSaleItemRequests.DeleteRequest request);
-
-  @Mappings({
-    @Mapping(target = "projectId", source = "project.id")
-  })
-  public abstract ProjectChargeData map(ProjectCharge data);
-
-  @Mappings({
-    @Mapping(target = "projectId", source = "project.id"),
-    @Mapping(target = "itemId", source = "itemData.id")
-  })
-  public abstract ProjectSaleItemData map(ProjectSaleItem data);
+  public abstract void pass(ProjectEntity from, @MappingTarget ProjectEntity to);
 
 }

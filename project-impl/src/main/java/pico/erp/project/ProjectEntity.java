@@ -1,4 +1,4 @@
-package pico.erp.project.jpa;
+package pico.erp.project;
 
 
 import java.io.Serializable;
@@ -26,14 +26,13 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import pico.erp.attachment.data.AttachmentId;
-import pico.erp.comment.subject.data.CommentSubjectId;
-import pico.erp.company.data.CompanyId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.attachment.AttachmentId;
+import pico.erp.comment.subject.CommentSubjectId;
+import pico.erp.company.CompanyId;
 import pico.erp.shared.TypeDefinitions;
 import pico.erp.shared.data.Auditor;
 import pico.erp.shared.data.Contact;
-import pico.erp.user.data.UserId;
+import pico.erp.user.UserId;
 
 @Entity(name = "Project")
 @Table(name = "PJT_PROJECT")

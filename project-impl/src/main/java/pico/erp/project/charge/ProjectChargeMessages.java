@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Value;
 import pico.erp.project.Project;
-import pico.erp.project.charge.data.ProjectChargeId;
 import pico.erp.shared.event.Event;
 
 public interface ProjectChargeMessages {

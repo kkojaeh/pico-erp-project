@@ -3,8 +3,7 @@ package pico.erp.project.charge;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.validation.constraints.NotNull;
-import pico.erp.project.charge.data.ProjectChargeId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.project.ProjectId;
 
 public interface ProjectChargeRepository {
 

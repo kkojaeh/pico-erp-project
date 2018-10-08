@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import pico.erp.audit.annotation.Audit;
-import pico.erp.item.data.ItemData;
+import pico.erp.item.ItemData;
 import pico.erp.project.Project;
 import pico.erp.project.sale.item.ProjectSaleItemMessages.CreateRequest;
 import pico.erp.project.sale.item.ProjectSaleItemMessages.CreateResponse;
@@ -20,7 +20,6 @@ import pico.erp.project.sale.item.ProjectSaleItemMessages.DeleteResponse;
 import pico.erp.project.sale.item.ProjectSaleItemMessages.ExpireResponse;
 import pico.erp.project.sale.item.ProjectSaleItemMessages.UpdateRequest;
 import pico.erp.project.sale.item.ProjectSaleItemMessages.UpdateResponse;
-import pico.erp.project.sale.item.data.ProjectSaleItemId;
 
 @Builder(toBuilder = true)
 @Getter

@@ -3,9 +3,8 @@ package pico.erp.project.sale.item;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.validation.constraints.NotNull;
-import pico.erp.item.data.ItemId;
-import pico.erp.project.data.ProjectId;
-import pico.erp.project.sale.item.data.ProjectSaleItemId;
+import pico.erp.item.ItemId;
+import pico.erp.project.ProjectId;
 
 public interface ProjectSaleItemRepository {
 

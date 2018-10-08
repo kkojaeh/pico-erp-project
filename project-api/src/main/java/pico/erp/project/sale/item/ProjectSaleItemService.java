@@ -3,13 +3,11 @@ package pico.erp.project.sale.item;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import pico.erp.item.data.ItemId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.item.ItemId;
+import pico.erp.project.ProjectId;
 import pico.erp.project.sale.item.ProjectSaleItemRequests.CreateRequest;
 import pico.erp.project.sale.item.ProjectSaleItemRequests.DeleteRequest;
 import pico.erp.project.sale.item.ProjectSaleItemRequests.UpdateRequest;
-import pico.erp.project.sale.item.data.ProjectSaleItemData;
-import pico.erp.project.sale.item.data.ProjectSaleItemId;
 
 public interface ProjectSaleItemService {
 

@@ -1,4 +1,4 @@
-package pico.erp.project.jpa;
+package pico.erp.project.sale.item;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -9,11 +9,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import pico.erp.item.data.ItemId;
-import pico.erp.project.data.ProjectId;
-import pico.erp.project.sale.item.ProjectSaleItem;
-import pico.erp.project.sale.item.ProjectSaleItemRepository;
-import pico.erp.project.sale.item.data.ProjectSaleItemId;
+import pico.erp.item.ItemId;
+import pico.erp.project.ProjectId;
 
 
 @Repository
@@ -42,13 +39,13 @@ public class ProjectSaleItemRepositoryJpa implements ProjectSaleItemRepository {
   private ProjectSaleItemEntityRepository repository;
 
   @Autowired
-  private ProjectJpaMapper mapper;
+  private ProjectSaleItemMapper mapper;
 
   @Override
   public ProjectSaleItem create(ProjectSaleItem projectSaleItem) {
-    val entity = mapper.map(projectSaleItem);
+    val entity = mapper.entity(projectSaleItem);
     val created = repository.save(entity);
-    return mapper.map(created);
+    return mapper.domain(created);
   }
 
   @Override
@@ -69,25 +66,25 @@ public class ProjectSaleItemRepositoryJpa implements ProjectSaleItemRepository {
   @Override
   public Stream<ProjectSaleItem> findAllBy(ProjectId projectId) {
     return repository.findAllBy(projectId)
-      .map(mapper::map);
+      .map(mapper::domain);
   }
 
   @Override
   public Optional<ProjectSaleItem> findBy(ProjectId projectId, ItemId itemId) {
     return Optional.ofNullable(repository.findOne(projectId, itemId))
-      .map(mapper::map);
+      .map(mapper::domain);
   }
 
   @Override
   public Optional<ProjectSaleItem> findBy(ProjectSaleItemId id) {
     return Optional.ofNullable(repository.findOne(id))
-      .map(mapper::map);
+      .map(mapper::domain);
   }
 
   @Override
   public void update(ProjectSaleItem projectSaleItem) {
     val entity = repository.findOne(projectSaleItem.getId());
-    mapper.pass(mapper.map(projectSaleItem), entity);
+    mapper.pass(mapper.entity(projectSaleItem), entity);
     repository.save(entity);
   }
 }

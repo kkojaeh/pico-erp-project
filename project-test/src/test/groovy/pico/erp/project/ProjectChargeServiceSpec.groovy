@@ -7,14 +7,13 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
-import pico.erp.company.data.CompanyId
+import pico.erp.company.CompanyId
+import pico.erp.project.charge.ProjectChargeId
 import pico.erp.project.charge.ProjectChargeRequests
 import pico.erp.project.charge.ProjectChargeService
-import pico.erp.project.charge.data.ProjectChargeId
-import pico.erp.project.data.ProjectId
 import pico.erp.shared.IntegrationConfiguration
 import pico.erp.shared.data.Contact
-import pico.erp.user.data.UserId
+import pico.erp.user.UserId
 import spock.lang.Specification
 
 @SpringBootTest(classes = [IntegrationConfiguration])

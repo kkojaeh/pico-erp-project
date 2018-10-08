@@ -1,15 +1,15 @@
-package pico.erp.project.data;
+package pico.erp.project;
 
 import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import pico.erp.attachment.data.AttachmentId;
-import pico.erp.comment.subject.data.CommentSubjectId;
-import pico.erp.company.data.CompanyId;
+import pico.erp.attachment.AttachmentId;
+import pico.erp.comment.subject.CommentSubjectId;
+import pico.erp.company.CompanyId;
 import pico.erp.shared.data.Contact;
-import pico.erp.user.data.UserId;
+import pico.erp.user.UserId;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)

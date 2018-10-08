@@ -1,14 +1,14 @@
-package pico.erp.project.data;
+package pico.erp.project;
 
 import java.time.OffsetDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pico.erp.company.data.CompanyId;
-import pico.erp.item.data.ItemId;
+import pico.erp.company.CompanyId;
+import pico.erp.item.ItemId;
 import pico.erp.shared.data.Auditor;
-import pico.erp.user.data.UserId;
+import pico.erp.user.UserId;
 
 @AllArgsConstructor
 @NoArgsConstructor

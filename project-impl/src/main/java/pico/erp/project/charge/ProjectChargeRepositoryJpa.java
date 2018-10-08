@@ -1,4 +1,4 @@
-package pico.erp.project.jpa;
+package pico.erp.project.charge;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -9,10 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import pico.erp.project.charge.ProjectCharge;
-import pico.erp.project.charge.ProjectChargeRepository;
-import pico.erp.project.charge.data.ProjectChargeId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.project.ProjectId;
 
 @Repository
 interface ProjectChargeEntityRepository extends
@@ -32,13 +29,13 @@ public class ProjectChargeRepositoryJpa implements ProjectChargeRepository {
   private ProjectChargeEntityRepository repository;
 
   @Autowired
-  private ProjectJpaMapper mapper;
+  private ProjectChargeMapper mapper;
 
   @Override
   public ProjectCharge create(ProjectCharge projectCharge) {
-    val entity = mapper.map(projectCharge);
+    val entity = mapper.entity(projectCharge);
     val created = repository.save(entity);
-    return mapper.map(created);
+    return mapper.domain(created);
   }
 
   @Override
@@ -54,19 +51,19 @@ public class ProjectChargeRepositoryJpa implements ProjectChargeRepository {
   @Override
   public Stream<ProjectCharge> findAllBy(ProjectId projectId) {
     return repository.findAllBy(projectId)
-      .map(mapper::map);
+      .map(mapper::domain);
   }
 
   @Override
   public Optional<ProjectCharge> findBy(ProjectChargeId id) {
     return Optional.ofNullable(repository.findOne(id))
-      .map(mapper::map);
+      .map(mapper::domain);
   }
 
   @Override
   public void update(ProjectCharge projectCharge) {
     val entity = repository.findOne(projectCharge.getId());
-    mapper.pass(mapper.map(projectCharge), entity);
+    mapper.pass(mapper.entity(projectCharge), entity);
     repository.save(entity);
   }
 }

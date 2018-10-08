@@ -1,4 +1,4 @@
-package pico.erp.project.jpa;
+package pico.erp.project;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -16,8 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pico.erp.project.ProjectQuery;
-import pico.erp.project.data.ProjectView;
+import pico.erp.project.sale.item.QProjectSaleItemEntity;
 import pico.erp.shared.ExtendedLabeledValue;
 import pico.erp.shared.LabeledValue;
 import pico.erp.shared.Public;

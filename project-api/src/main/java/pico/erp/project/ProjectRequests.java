@@ -7,12 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pico.erp.attachment.data.AttachmentId;
-import pico.erp.company.data.CompanyId;
-import pico.erp.project.data.ProjectId;
+import pico.erp.attachment.AttachmentId;
+import pico.erp.company.CompanyId;
 import pico.erp.shared.TypeDefinitions;
 import pico.erp.shared.data.Contact;
-import pico.erp.user.data.UserId;
+import pico.erp.user.UserId;
 
 public interface ProjectRequests {
 

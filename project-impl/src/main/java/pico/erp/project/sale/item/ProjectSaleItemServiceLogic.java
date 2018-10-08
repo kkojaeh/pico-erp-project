@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pico.erp.audit.AuditService;
-import pico.erp.item.data.ItemId;
-import pico.erp.project.ProjectMapper;
-import pico.erp.project.data.ProjectId;
-import pico.erp.project.sale.item.data.ProjectSaleItemData;
-import pico.erp.project.sale.item.data.ProjectSaleItemId;
+import pico.erp.item.ItemId;
+import pico.erp.project.ProjectId;
 import pico.erp.shared.Public;
 import pico.erp.shared.event.EventPublisher;
 
@@ -31,7 +28,7 @@ public class ProjectSaleItemServiceLogic implements ProjectSaleItemService {
   private EventPublisher eventPublisher;
 
   @Autowired
-  private ProjectMapper mapper;
+  private ProjectSaleItemMapper mapper;
 
   @Lazy
   @Autowired

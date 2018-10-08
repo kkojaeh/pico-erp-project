@@ -9,19 +9,18 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import pico.erp.attachment.data.AttachmentId;
+import pico.erp.attachment.AttachmentId;
 import pico.erp.audit.annotation.Audit;
-import pico.erp.comment.subject.data.CommentSubjectId;
-import pico.erp.company.data.CompanyData;
+import pico.erp.comment.subject.CommentSubjectId;
+import pico.erp.company.CompanyData;
 import pico.erp.project.ProjectEvents.CreatedEvent;
 import pico.erp.project.ProjectEvents.DeletedEvent;
 import pico.erp.project.ProjectEvents.UpdatedEvent;
 import pico.erp.project.ProjectMessages.CreateResponse;
 import pico.erp.project.ProjectMessages.DeleteResponse;
 import pico.erp.project.ProjectMessages.UpdateResponse;
-import pico.erp.project.data.ProjectId;
 import pico.erp.shared.data.Contact;
-import pico.erp.user.data.UserData;
+import pico.erp.user.UserData;
 
 @Builder(toBuilder = true)
 @Getter

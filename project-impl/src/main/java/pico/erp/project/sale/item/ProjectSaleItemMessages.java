@@ -7,9 +7,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Value;
-import pico.erp.item.data.ItemData;
+import pico.erp.item.ItemData;
 import pico.erp.project.Project;
-import pico.erp.project.sale.item.data.ProjectSaleItemId;
 import pico.erp.shared.event.Event;
 
 public interface ProjectSaleItemMessages {
