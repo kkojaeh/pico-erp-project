@@ -37,7 +37,7 @@ public class ProjectSaleItemEntity {
 
   @EmbeddedId
   @AttributeOverrides({
-    @AttributeOverride(name = "value", column = @Column(name = "ID", length = TypeDefinitions.ID_LENGTH))
+    @AttributeOverride(name = "value", column = @Column(name = "ID", length = TypeDefinitions.UUID_BINARY_LENGTH))
   })
   ProjectSaleItemId id;
 
@@ -46,7 +46,7 @@ public class ProjectSaleItemEntity {
   ProjectEntity project;
 
   @AttributeOverrides({
-    @AttributeOverride(name = "value", column = @Column(name = "ITEM_ID", length = TypeDefinitions.ID_LENGTH))
+    @AttributeOverride(name = "value", column = @Column(name = "ITEM_ID", length = TypeDefinitions.UUID_BINARY_LENGTH))
   })
   ItemId itemId;
 

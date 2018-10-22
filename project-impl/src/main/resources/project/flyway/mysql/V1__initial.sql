@@ -1,6 +1,6 @@
 create table pjt_project (
-	id varchar(50) not null,
-	attachment_id varchar(50),
+	id binary(16) not null,
+	attachment_id binary(50),
 	comment_subject_id varchar(50),
 	created_by_id varchar(50),
 	created_by_name varchar(50),
@@ -21,3 +21,48 @@ create table pjt_project (
 	name varchar(50),
 	primary key (id)
 ) engine=InnoDB;
+
+create table pjt_project_charge (
+	id binary(16) not null,
+	charged bit,
+	charged_date datetime,
+	created_by_id varchar(50),
+	created_by_name varchar(50),
+	created_date datetime,
+	name varchar(50),
+	paid bit,
+	paid_date datetime,
+	quantity decimal(19,2),
+	unit_price decimal(19,2),
+	project_id binary(16),
+	primary key (id)
+) engine=InnoDB;
+
+create table pjt_project_sale_item (
+	id binary(16) not null,
+	charged_quantity decimal(19,2),
+	created_by_id varchar(50),
+	created_by_name varchar(50),
+	created_date datetime,
+	delivered_quantity decimal(19,2),
+	expiration_date datetime,
+	expired bit not null,
+	expired_date datetime,
+	item_id binary(16),
+	ordered_quantity decimal(19,2),
+	paid_quantity decimal(19,2),
+	unit_price decimal(19,2),
+	project_id binary(16),
+	primary key (id)
+) engine=InnoDB;
+
+alter table pjt_project_sale_item
+	add constraint PJT_PROJECT_SALE_ITEM_ITEM_ID_IDX unique (project_id,item_id);
+
+alter table pjt_project_charge
+	add constraint FKadx7fj09xsi8ktuol73yv1qvf foreign key (project_id)
+	references pjt_project (id);
+
+alter table pjt_project_sale_item
+	add constraint FKt1hlm0fdnk68nvjw0woy4s266 foreign key (project_id)
+	references pjt_project (id);

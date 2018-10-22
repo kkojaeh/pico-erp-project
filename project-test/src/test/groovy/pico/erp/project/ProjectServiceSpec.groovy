@@ -56,7 +56,7 @@ class ProjectServiceSpec extends Specification {
     def project = projectService.get(ProjectId.from("P1"))
 
     then:
-    project.id.value == "P1"
+    project.managerId == UserId.from("ysh")
     project.name == "프로젝트1"
   }
 

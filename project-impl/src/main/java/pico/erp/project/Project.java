@@ -59,7 +59,7 @@ public class Project implements Serializable {
     customer = request.getCustomer();
     manager = request.getManager();
     customerManagerContact = request.getCustomerManagerContact();
-    commentSubjectId = CommentSubjectId.from(id.getValue());
+    commentSubjectId = CommentSubjectId.from(id.getValue().toString());
     attachmentId = request.getAttachmentId();
     return new CreateResponse(Arrays.asList(new CreatedEvent(this.id)));
   }

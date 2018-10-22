@@ -2,9 +2,9 @@ package pico.erp.project.charge;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
+import java.util.UUID;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
-import pico.erp.shared.TypeDefinitions;
 
 @Embeddable
 @Getter
@@ -25,12 +24,23 @@ public class ProjectChargeId implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Getter(onMethod = @__({@JsonValue}))
-  @Size(min = 1, max = TypeDefinitions.ID_LENGTH)
   @NotNull
-  private String value;
+  private UUID value;
 
   public static ProjectChargeId from(@NonNull String value) {
+    try {
+      return from(UUID.fromString(value));
+    } catch (IllegalArgumentException e) {
+      return from(UUID.nameUUIDFromBytes(value.getBytes()));
+    }
+  }
+
+  public static ProjectChargeId from(@NonNull UUID value) {
     return new ProjectChargeId(value);
+  }
+
+  public static ProjectChargeId generate() {
+    return from(UUID.randomUUID());
   }
 
 }
