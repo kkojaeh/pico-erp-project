@@ -52,4 +52,12 @@ class ProjectQuerySpec extends Specification {
     new ProjectView.Filter(customerManagerName: "고객 회사 담당자") | new PageRequest(0, 10) || 2
   }
 
+  def "라벨 생성 확인"() {
+    when:
+    def result = projectQuery.asLabels("", 10)
+    println result
+    then:
+    result.isEmpty() != true
+  }
+
 }

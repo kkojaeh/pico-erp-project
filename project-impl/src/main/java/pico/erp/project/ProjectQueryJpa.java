@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pico.erp.project.sale.item.QProjectSaleItemEntity;
-import pico.erp.shared.ExtendedLabeledValue;
 import pico.erp.shared.LabeledValue;
 import pico.erp.shared.Public;
+import pico.erp.shared.QExtendedLabeledValue;
 import pico.erp.shared.data.LabeledValuable;
 import pico.erp.shared.jpa.QueryDslJpaSupport;
 
@@ -39,10 +39,11 @@ public class ProjectQueryJpa implements ProjectQuery {
   @Autowired
   private QueryDslJpaSupport queryDslJpaSupport;
 
+
   @Override
   public List<? extends LabeledValuable> asLabels(String keyword, long limit) {
     val query = new JPAQuery<LabeledValue>(entityManager);
-    val select = Projections.bean(ExtendedLabeledValue.class,
+    val select = new QExtendedLabeledValue(
       project.id.value.as("value"),
       project.name.as("label"),
       project.customerName.as("subLabel"),
