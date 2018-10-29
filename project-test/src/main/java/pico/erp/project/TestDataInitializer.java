@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pico.erp.project.ProjectRequests.CreateRequest;
 import pico.erp.shared.ApplicationInitializer;
 
-@Transactional
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
 @Profile({"!development", "!production"})
 public class TestDataInitializer implements ApplicationInitializer {
