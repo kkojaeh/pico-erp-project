@@ -17,15 +17,15 @@ import pico.erp.project.ProjectId;
 interface ProjectSaleItemEntityRepository extends
   CrudRepository<ProjectSaleItemEntity, ProjectSaleItemId> {
 
-  @Query("SELECT CASE WHEN COUNT(psi) > 0 THEN true ELSE false END FROM ProjectSaleItem psi JOIN psi.project p  WHERE p.id = :projectId AND psi.itemId = :itemId")
+  @Query("SELECT CASE WHEN COUNT(psi) > 0 THEN true ELSE false END FROM ProjectSaleItem psi WHERE psi.projectId = :projectId AND psi.itemId = :itemId")
   boolean exists(
     @Param("projectId") ProjectId projectId, @Param("itemId") ItemId itemId);
 
-  @Query("SELECT psi FROM ProjectSaleItem psi JOIN psi.project p  WHERE p.id = :projectId")
+  @Query("SELECT psi FROM ProjectSaleItem psi WHERE psi.projectId = :projectId")
   Stream<ProjectSaleItemEntity> findAllBy(
     @Param("projectId") ProjectId projectId);
 
-  @Query("SELECT psi FROM ProjectSaleItem psi JOIN psi.project p  WHERE p.id = :projectId AND psi.itemId = :itemId")
+  @Query("SELECT psi FROM ProjectSaleItem psi WHERE psi.projectId = :projectId AND psi.itemId = :itemId")
   ProjectSaleItemEntity findOne(
     @Param("projectId") ProjectId projectId, @Param("itemId") ItemId itemId);
 

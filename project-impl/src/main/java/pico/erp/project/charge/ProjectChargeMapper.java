@@ -7,7 +7,6 @@ import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import pico.erp.project.Project;
-import pico.erp.project.ProjectEntity;
 import pico.erp.project.ProjectId;
 import pico.erp.project.ProjectMapper;
 import pico.erp.project.sale.item.ProjectSaleItemMessages;
@@ -23,7 +22,7 @@ public abstract class ProjectChargeMapper {
   public ProjectCharge domain(ProjectChargeEntity entity) {
     return ProjectCharge.builder()
       .id(entity.getId())
-      .project(projectMapper.domain(entity.getProject()))
+      .project(map(entity.getProjectId()))
       .name(entity.getName())
       .unitPrice(entity.getUnitPrice())
       .quantity(entity.getQuantity())
@@ -36,15 +35,11 @@ public abstract class ProjectChargeMapper {
   }
 
   @Mappings({
-    @Mapping(target = "project", source = "project.id"),
+    @Mapping(target = "projectId", source = "project.id"),
     @Mapping(target = "createdBy", ignore = true),
     @Mapping(target = "createdDate", ignore = true)
   })
   public abstract ProjectChargeEntity entity(ProjectCharge charge);
-
-  protected ProjectEntity entity(ProjectId projectId) {
-    return projectMapper.entity(projectId);
-  }
 
   @Mappings({
     @Mapping(target = "project", source = "projectId")

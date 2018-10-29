@@ -10,8 +10,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -21,14 +19,15 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pico.erp.item.ItemId;
-import pico.erp.project.ProjectEntity;
+import pico.erp.project.ProjectId;
 import pico.erp.shared.TypeDefinitions;
 import pico.erp.shared.data.Auditor;
 
 @Data
 @Entity(name = "ProjectSaleItem")
 @Table(name = "PJT_PROJECT_SALE_ITEM", indexes = {
-  @Index(name = "PJT_PROJECT_SALE_ITEM_ITEM_ID_IDX", columnList = "PROJECT_ID, ITEM_ID", unique = true)
+  @Index(columnList = "PROJECT_ID"),
+  @Index(columnList = "PROJECT_ID, ITEM_ID", unique = true)
 })
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
@@ -41,9 +40,10 @@ public class ProjectSaleItemEntity {
   })
   ProjectSaleItemId id;
 
-  @ManyToOne
-  @JoinColumn(name = "PROJECT_ID")
-  ProjectEntity project;
+  @AttributeOverrides({
+    @AttributeOverride(name = "value", column = @Column(name = "PROJECT_ID", length = TypeDefinitions.UUID_BINARY_LENGTH))
+  })
+  ProjectId projectId;
 
   @AttributeOverrides({
     @AttributeOverride(name = "value", column = @Column(name = "ITEM_ID", length = TypeDefinitions.UUID_BINARY_LENGTH))

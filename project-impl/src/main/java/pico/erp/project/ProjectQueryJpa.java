@@ -98,7 +98,7 @@ public class ProjectQueryJpa implements ProjectQuery {
     if (filter.getItemId() != null) {
       builder.and(
         project.id.in(
-          JPAExpressions.select(saleItem.project.id)
+          JPAExpressions.select(saleItem.projectId)
             .from(saleItem)
             .where(saleItem.itemId.eq(filter.getItemId()))
         )

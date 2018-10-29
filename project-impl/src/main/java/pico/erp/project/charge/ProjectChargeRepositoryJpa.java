@@ -15,7 +15,7 @@ import pico.erp.project.ProjectId;
 interface ProjectChargeEntityRepository extends
   CrudRepository<ProjectChargeEntity, ProjectChargeId> {
 
-  @Query("SELECT pc FROM ProjectCharge pc JOIN pc.project p WHERE p.id = :projectId")
+  @Query("SELECT pc FROM ProjectCharge pc WHERE pc.projectId = :projectId")
   Stream<ProjectChargeEntity> findAllBy(
     @Param("projectId") ProjectId projectId);
 

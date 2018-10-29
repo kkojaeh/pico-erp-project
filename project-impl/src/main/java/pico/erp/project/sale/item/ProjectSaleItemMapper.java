@@ -11,7 +11,6 @@ import pico.erp.item.ItemData;
 import pico.erp.item.ItemId;
 import pico.erp.item.ItemService;
 import pico.erp.project.Project;
-import pico.erp.project.ProjectEntity;
 import pico.erp.project.ProjectId;
 import pico.erp.project.ProjectMapper;
 
@@ -29,7 +28,7 @@ public abstract class ProjectSaleItemMapper {
   public ProjectSaleItem domain(ProjectSaleItemEntity entity) {
     return ProjectSaleItem.builder()
       .id(entity.getId())
-      .project(projectMapper.domain(entity.getProject()))
+      .project(map(entity.getProjectId()))
       .itemData(map(entity.getItemId()))
       .unitPrice(entity.getUnitPrice())
       .orderedQuantity(entity.getOrderedQuantity())
@@ -44,16 +43,12 @@ public abstract class ProjectSaleItemMapper {
   }
 
   @Mappings({
-    @Mapping(target = "project", source = "project.id"),
+    @Mapping(target = "projectId", source = "project.id"),
     @Mapping(target = "itemId", source = "itemData.id"),
     @Mapping(target = "createdBy", ignore = true),
     @Mapping(target = "createdDate", ignore = true)
   })
   public abstract ProjectSaleItemEntity entity(ProjectSaleItem item);
-
-  protected ProjectEntity entity(ProjectId projectId) {
-    return projectMapper.entity(projectId);
-  }
 
   @Mappings({
     @Mapping(target = "project", source = "projectId"),
