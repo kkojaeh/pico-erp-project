@@ -72,9 +72,7 @@ public abstract class ProjectMapper {
 
   @Mappings({
     @Mapping(target = "customerId", source = "customer.id"),
-    @Mapping(target = "customerName", source = "customer.name"),
     @Mapping(target = "managerId", source = "manager.id"),
-    @Mapping(target = "managerName", source = "manager.name"),
     @Mapping(target = "createdBy", ignore = true),
     @Mapping(target = "createdDate", ignore = true),
     @Mapping(target = "lastModifiedBy", ignore = true),

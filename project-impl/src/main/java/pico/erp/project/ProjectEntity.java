@@ -66,16 +66,10 @@ public class ProjectEntity implements Serializable {
   })
   CompanyId customerId;
 
-  @Column(name = "CUSTOMER_NAME", length = TypeDefinitions.NAME_LENGTH)
-  String customerName;
-
   @AttributeOverrides({
     @AttributeOverride(name = "value", column = @Column(name = "MANAGER_ID", length = TypeDefinitions.ID_LENGTH))
   })
   UserId managerId;
-
-  @Column(name = "MANAGER_NAME", length = TypeDefinitions.NAME_LENGTH)
-  String managerName;
 
   @Embedded
   @AttributeOverrides({

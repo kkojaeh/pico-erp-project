@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
-import pico.erp.company.CompanyId
 import pico.erp.item.ItemId
+import pico.erp.project.sale.item.ProjectSaleItemExceptions
 import pico.erp.project.sale.item.ProjectSaleItemId
 import pico.erp.project.sale.item.ProjectSaleItemRequests
 import pico.erp.project.sale.item.ProjectSaleItemService
 import pico.erp.shared.IntegrationConfiguration
-import pico.erp.shared.data.Contact
-import pico.erp.user.UserId
 import spock.lang.Specification
 
 @SpringBootTest(classes = [IntegrationConfiguration])
@@ -28,78 +26,100 @@ class ProjectSaleItemServiceSpec extends Specification {
   @Autowired
   ProjectSaleItemService projectSaleItemService
 
-  @Autowired
-  ProjectService projectService
+  def projectId = ProjectId.from("sample-project1")
+
+  def itemId = ItemId.from("item-1")
+
+  def id = ProjectSaleItemId.from("sale-item-1")
+
+  def unknownId = ProjectSaleItemId.from("unknown")
 
   def setup() {
-    projectService.create(new ProjectRequests.CreateRequest(id: ProjectId.from("P1"), name: "프로젝트1",
-      customerId: CompanyId.from("CUST2"),
-      managerId: UserId.from("ysh"),
-      customerManagerContact: new Contact(name: "고객 회사 담당자", email: "manager@company.com", telephoneNumber: "+821011111111", mobilePhoneNumber: "+821011111111", faxNumber: "+821011111111")))
-  }
-
-  def "판매 상품 추가"() {
-    when:
     projectSaleItemService.create(
       new ProjectSaleItemRequests.CreateRequest(
-        projectId: ProjectId.from("P1"),
-        id: ProjectSaleItemId.from("sale-item-1"),
-        itemId: ItemId.from("item-1"),
+        id: id,
+        projectId: projectId,
+        itemId: itemId,
         unitPrice: 20000
       )
     )
-    def saleItems = projectSaleItemService.getAll(ProjectId.from("P1"))
-    def saleItem = projectSaleItemService.get(ProjectSaleItemId.from("sale-item-1"))
+  }
+
+  def "존재 - 아이디로 확인"() {
+    when:
+    def exists = projectSaleItemService.exists(id)
+
+    then:
+    exists == true
+  }
+
+  def "존재 - 존재하지 않는 아이디로 확인"() {
+    when:
+    def exists = projectSaleItemService.exists(unknownId)
+
+    then:
+    exists == false
+  }
+
+  def "조회 - 아이디로 조회"() {
+    when:
+    def saleItem = projectSaleItemService.get(id)
+
+    then:
+    saleItem.id == id
+    saleItem.projectId == projectId
+    saleItem.unitPrice == 20000
+    saleItem.itemId == itemId
+  }
+
+  def "조회 - 존재하지 않는 아이디로 조회"() {
+    when:
+    projectSaleItemService.get(unknownId)
+
+    then:
+    thrown(ProjectSaleItemExceptions.NotFoundException)
+  }
+
+
+  def "조회 - 프로젝트 아이디로 조회"() {
+    when:
+
+    def saleItems = projectSaleItemService.getAll(projectId)
+    def saleItem = saleItems[0]
 
     then:
     saleItems.size() == 1
     saleItem.unitPrice == 20000
-    saleItem.itemId == ItemId.from("item-1")
+    saleItem.itemId == itemId
   }
 
-  def "판매 상품 삭제"() {
+  def "삭제 - 삭제"() {
     when:
-    projectSaleItemService.create(
-      new ProjectSaleItemRequests.CreateRequest(
-        projectId: ProjectId.from("P1"),
-        id: ProjectSaleItemId.from("sale-item-1"),
-        itemId: ItemId.from("item-1"),
-        unitPrice: 20000
-      )
-    )
     projectSaleItemService.delete(
       new ProjectSaleItemRequests.DeleteRequest(
-        id: ProjectSaleItemId.from("sale-item-1")
+        id: id
       )
     )
-    def saleItems = projectSaleItemService.getAll(ProjectId.from("P1"))
+    def saleItems = projectSaleItemService.getAll(projectId)
 
     then:
     saleItems.size() == 0
   }
 
-  def "판매 상품 수정"() {
+  def "수정 - 수정"() {
     when:
-    projectSaleItemService.create(
-      new ProjectSaleItemRequests.CreateRequest(
-        projectId: ProjectId.from("P1"),
-        id: ProjectSaleItemId.from("sale-item-1"),
-        itemId: ItemId.from("item-1"),
-        unitPrice: 20000
-      )
-    )
     projectSaleItemService.update(
       new ProjectSaleItemRequests.UpdateRequest(
-        id: ProjectSaleItemId.from("sale-item-1"),
+        id: id,
         unitPrice: 10000
       )
     )
-    def saleItems = projectSaleItemService.getAll(ProjectId.from("P1"))
-    def saleItem = projectSaleItemService.get(ProjectSaleItemId.from("sale-item-1"))
+    def saleItems = projectSaleItemService.getAll(projectId)
+    def saleItem = projectSaleItemService.get(id)
 
     then:
     saleItems.size() == 1
     saleItem.unitPrice == 10000
-    saleItem.itemId == ItemId.from("item-1")
+    saleItem.itemId == itemId
   }
 }

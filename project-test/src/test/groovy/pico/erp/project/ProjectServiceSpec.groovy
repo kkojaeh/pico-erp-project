@@ -24,48 +24,114 @@ class ProjectServiceSpec extends Specification {
   @Autowired
   ProjectService projectService
 
+  def id = ProjectId.from("test")
+
+  def unknownId = ProjectId.from("unknown")
+
+  def name = "테스트 프로젝트"
+
+  def customerId = CompanyId.from("CUST2")
+
+  def managerId = UserId.from("ysh")
+
+  def customerManagerContact = new Contact(
+    name: "고객 회사 담당자",
+    email: "manager@company.com",
+    telephoneNumber: "+821011111111",
+    mobilePhoneNumber: "+821011111111",
+    faxNumber: "+821011111111"
+  )
+
   def setup() {
-    projectService.create(new ProjectRequests.CreateRequest(id: ProjectId.from("P1"), name: "프로젝트1",
-      customerId: CompanyId.from("CUST2"),
-      managerId: UserId.from("ysh"),
-      customerManagerContact: new Contact(name: "고객 회사 담당자", email: "manager@company.com", telephoneNumber: "+821011111111", mobilePhoneNumber: "+821011111111", faxNumber: "+821011111111")))
-    projectService.create(new ProjectRequests.CreateRequest(id: ProjectId.from("P2"), name: "프로젝트2",
-      customerId: CompanyId.from("CUST2"),
-      managerId: UserId.from("ysh"),
-      customerManagerContact: new Contact(name: "고객 회사 담당자", email: "manager@company.com", telephoneNumber: "+821011111111", mobilePhoneNumber: "+821011111111", faxNumber: "+821011111111")))
+    projectService.create(
+      new ProjectRequests.CreateRequest(
+        id: id,
+        name: name,
+        customerId: customerId,
+        managerId: managerId,
+        customerManagerContact: customerManagerContact
+      )
+    )
   }
 
-  def "아이디로 존재하는 회사 확인"() {
+  def "존재 - 아이디로 확인"() {
     when:
-    def exists = projectService.exists(ProjectId.from("P1"))
+    def exists = projectService.exists(id)
 
     then:
     exists == true
   }
 
-  def "아이디로 존재하지 않는 회사 확인"() {
+  def "존재 - 존재하지 않는 아이디로 확인"() {
     when:
-    def exists = projectService.exists(ProjectId.from("!P1"))
+    def exists = projectService.exists(unknownId)
 
     then:
     exists == false
   }
 
-  def "아이디로 존재하는 회사를 조회"() {
+  def "조회 - 아이디로 조회"() {
     when:
-    def project = projectService.get(ProjectId.from("P1"))
+    def project = projectService.get(id)
 
     then:
-    project.managerId == UserId.from("ysh")
-    project.name == "프로젝트1"
+    project.id == id
+    project.name == name
+    project.managerId == managerId
+    project.customerId == customerId
+    project.customerManagerContact.name == customerManagerContact.name
+    project.customerManagerContact.email == customerManagerContact.email
+    project.customerManagerContact.telephoneNumber == customerManagerContact.telephoneNumber
+    project.customerManagerContact.mobilePhoneNumber == customerManagerContact.mobilePhoneNumber
+    project.customerManagerContact.faxNumber == customerManagerContact.faxNumber
   }
 
-  def "아이디로 존재하지 않는 회사를 조회"() {
+  def "조회 - 존재하지 않는 아이디로 조회"() {
     when:
-    projectService.get(ProjectId.from("!P1"))
+    projectService.get(unknownId)
 
     then:
     thrown(ProjectExceptions.NotFoundException)
+  }
+
+  def "수정 - 수정"() {
+    when:
+    def name = "테스트 프로젝트2"
+
+    def customerId = CompanyId.from("CUST1")
+
+    def managerId = UserId.from("kjh")
+
+    def customerManagerContact = new Contact(
+      name: "고객 회사 담당자2",
+      email: "manager2@company.com",
+      telephoneNumber: "+821011111112",
+      mobilePhoneNumber: "+821011111112",
+      faxNumber: "+821011111112"
+    )
+
+    projectService.update(
+      new ProjectRequests.UpdateRequest(
+        id: id,
+        name: name,
+        customerId: customerId,
+        managerId: managerId,
+        customerManagerContact: customerManagerContact
+      )
+    )
+
+    def project = projectService.get(id)
+
+    then:
+    project.id == id
+    project.name == name
+    project.managerId == managerId
+    project.customerId == customerId
+    project.customerManagerContact.name == customerManagerContact.name
+    project.customerManagerContact.email == customerManagerContact.email
+    project.customerManagerContact.telephoneNumber == customerManagerContact.telephoneNumber
+    project.customerManagerContact.mobilePhoneNumber == customerManagerContact.mobilePhoneNumber
+    project.customerManagerContact.faxNumber == customerManagerContact.faxNumber
   }
 
 }

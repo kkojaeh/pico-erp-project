@@ -7,13 +7,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
-import pico.erp.company.CompanyId
+import pico.erp.project.charge.ProjectChargeExceptions
 import pico.erp.project.charge.ProjectChargeId
 import pico.erp.project.charge.ProjectChargeRequests
 import pico.erp.project.charge.ProjectChargeService
 import pico.erp.shared.IntegrationConfiguration
-import pico.erp.shared.data.Contact
-import pico.erp.user.UserId
 import spock.lang.Specification
 
 @SpringBootTest(classes = [IntegrationConfiguration])
@@ -30,82 +28,117 @@ class ProjectChargeServiceSpec extends Specification {
   @Autowired
   ProjectChargeService projectChargeService
 
+  def projectId = ProjectId.from("sample-project1")
+
+  def id = ProjectChargeId.from("charge-1")
+
+  def unknownId = ProjectChargeId.from("unknown")
+
+  def name = "기초비 목형"
+
+  def unitPrice = 200000
+
+  def quantity = 1
 
   def setup() {
-    projectService.create(new ProjectRequests.CreateRequest(id: ProjectId.from("P1"), name: "프로젝트1",
-      customerId: CompanyId.from("CUST2"),
-      managerId: UserId.from("ysh"),
-      customerManagerContact: new Contact(name: "고객 회사 담당자", email: "manager@company.com", telephoneNumber: "+821011111111", mobilePhoneNumber: "+821011111111", faxNumber: "+821011111111")))
-  }
-
-  def "청구 내용 추가"() {
-    when:
     projectChargeService.create(
       new ProjectChargeRequests.CreateRequest(
-        id: ProjectChargeId.from("charge-1"),
-        projectId: ProjectId.from("P1"),
-        name: "기초비 목형",
-        unitPrice: 200000,
-        quantity: 1
+        id: id,
+        projectId: projectId,
+        name: name,
+        unitPrice: unitPrice,
+        quantity: quantity
       )
     )
-    def charges = projectChargeService.getAll(ProjectId.from("P1"))
-    def charge = projectChargeService.get(ProjectChargeId.from("charge-1"))
+  }
+
+  def "존재 - 아이디로 확인"() {
+    when:
+    def exists = projectChargeService.exists(id)
+
+    then:
+    exists == true
+  }
+
+  def "존재 - 존재하지 않는 아이디로 확인"() {
+    when:
+    def exists = projectChargeService.exists(unknownId)
+
+    then:
+    exists == false
+  }
+
+  def "조회 - 아이디로 조회"() {
+    when:
+    def charge = projectChargeService.get(id)
+
+    then:
+    charge.id == id
+    charge.projectId == projectId
+    charge.name == name
+    charge.unitPrice == unitPrice
+    charge.quantity == quantity
+  }
+
+  def "조회 - 존재하지 않는 아이디로 조회"() {
+    when:
+    projectChargeService.get(unknownId)
+
+    then:
+    thrown(ProjectChargeExceptions.NotFoundException)
+  }
+
+
+  def "조회 - 프로젝트 아이디로 조회"() {
+    when:
+
+    def charges = projectChargeService.getAll(projectId)
+    def charge = charges[0]
 
     then:
     charges.size() == 1
-    charge.unitPrice == 200000
-    charge.quantity == 1
-    charge.name == "기초비 목형"
+    charge.id == id
+    charge.projectId == projectId
+    charge.name == name
+    charge.unitPrice == unitPrice
+    charge.quantity == quantity
   }
 
-  def "청구 내용 삭제"() {
+
+  def "삭제 - 삭제"() {
     when:
-    projectChargeService.create(
-      new ProjectChargeRequests.CreateRequest(
-        id: ProjectChargeId.from("charge-1"),
-        projectId: ProjectId.from("P1"),
-        name: "기초비 목형",
-        unitPrice: 200000,
-        quantity: 1
-      )
-    )
     projectChargeService.delete(
       new ProjectChargeRequests.DeleteRequest(
-        id: ProjectChargeId.from("charge-1")
+        id: id
       )
     )
-    def charges = projectChargeService.getAll(ProjectId.from("P1"))
+    def charges = projectChargeService.getAll(projectId)
 
     then:
     charges.size() == 0
   }
 
-  def "청구 내용 수정"() {
+  def "수정 - 수정"() {
     when:
-    projectChargeService.create(
-      new ProjectChargeRequests.CreateRequest(
-        id: ProjectChargeId.from("charge-1"),
-        projectId: ProjectId.from("P1"),
-        name: "기초비 목형",
-        unitPrice: 200000,
-        quantity: 1
-      )
-    )
+    def name = "기초비 목형2"
+
+    def unitPrice = 200000
+
+    def quantity = 2
     projectChargeService.update(
       new ProjectChargeRequests.UpdateRequest(
-        id: ProjectChargeId.from("charge-1"),
-        name: "기초비 목형값",
-        unitPrice: 100000,
-        quantity: 2
+        id: id,
+        name: name,
+        unitPrice: unitPrice,
+        quantity: quantity
       )
     )
     def charge = projectChargeService.get(ProjectChargeId.from("charge-1"))
 
     then:
-    charge.unitPrice == 100000
-    charge.quantity == 2
-    charge.name == "기초비 목형값"
+    charge.name == name
+    charge.unitPrice == unitPrice
+    charge.quantity == quantity
   }
 
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import pico.erp.company.CompanyId;
 import pico.erp.item.ItemId;
 import pico.erp.shared.data.Auditor;
+import pico.erp.shared.data.Contact;
 import pico.erp.user.UserId;
 
 @AllArgsConstructor
@@ -22,13 +23,9 @@ public class ProjectView {
 
   CompanyId customerId;
 
-  String customerName;
-
   UserId managerId;
 
-  String managerName;
-
-  String customerManagerName;
+  Contact customerManagerContact;
 
   Auditor createdBy;
 

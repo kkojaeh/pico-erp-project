@@ -46,8 +46,8 @@ public class ProjectQueryJpa implements ProjectQuery {
     val select = new QExtendedLabeledValue(
       project.id.value.as("value"),
       project.name.as("label"),
-      project.customerName.as("subLabel"),
-      project.customerManagerContact.name.as("stamp")
+      project.customerManagerContact.name.as("subLabel"),
+      project.customerManagerContact.email.as("stamp")
     );
     query.select(select);
     query.from(project);
@@ -65,10 +65,8 @@ public class ProjectQueryJpa implements ProjectQuery {
       project.id,
       project.name,
       project.customerId,
-      project.customerName,
       project.managerId,
-      project.managerName,
-      project.customerManagerContact.name.as("customerManagerName"),
+      project.customerManagerContact,
       project.createdBy,
       project.createdDate
     );

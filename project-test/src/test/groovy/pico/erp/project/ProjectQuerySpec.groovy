@@ -10,7 +10,6 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
 import pico.erp.company.CompanyId
 import pico.erp.shared.IntegrationConfiguration
-import pico.erp.shared.data.Contact
 import pico.erp.user.UserId
 import spock.lang.Specification
 
@@ -22,22 +21,9 @@ import spock.lang.Specification
 @ComponentScan("pico.erp.config")
 class ProjectQuerySpec extends Specification {
 
-  def setup() {
-    projectService.create(new ProjectRequests.CreateRequest(id: ProjectId.from("P1"), name: "프로젝트1",
-      customerId: CompanyId.from("CUST2"),
-      managerId: UserId.from("ysh"),
-      customerManagerContact: new Contact(name: "고객 회사 담당자", email: "manager@company.com", telephoneNumber: "+821011111111", mobilePhoneNumber: "+821011111111", faxNumber: "+821011111111")))
-    projectService.create(new ProjectRequests.CreateRequest(id: ProjectId.from("P2"), name: "프로젝트2",
-      customerId: CompanyId.from("CUST2"),
-      managerId: UserId.from("ysh"),
-      customerManagerContact: new Contact(name: "고객 회사 담당자", email: "manager@company.com", telephoneNumber: "+821011111111", mobilePhoneNumber: "+821011111111", faxNumber: "+821011111111")))
-  }
-
   @Autowired
   ProjectQuery projectQuery
 
-  @Autowired
-  ProjectService projectService
 
   def "조회 조건에 맞게 조회"() {
     expect:
@@ -45,19 +31,18 @@ class ProjectQuerySpec extends Specification {
     page.totalElements == totalElements
 
     where:
-    condition                                                | pageable               || totalElements
-    new ProjectView.Filter(name: "프로젝트1")                    | new PageRequest(0, 10) || 2
-    // new ProjectView.Filter(customerId: "company") | new PageRequest(0, 10) || 2
-    // new ProjectView.Filter(managerId: "user")   | new PageRequest(0, 10) || 2
-    new ProjectView.Filter(customerManagerName: "고객 회사 담당자") | new PageRequest(0, 10) || 2
+    condition                                                   | pageable               || totalElements
+    new ProjectView.Filter(name: "프로젝트1")                       | new PageRequest(0, 10) || 1
+    new ProjectView.Filter(customerId: CompanyId.from("CUST1")) | new PageRequest(0, 10) || 2
+    new ProjectView.Filter(managerId: UserId.from("ysh"))       | new PageRequest(0, 10) || 3
+    new ProjectView.Filter(customerManagerName: "고객2 회사 담당자")   | new PageRequest(0, 10) || 1
   }
 
   def "라벨 생성 확인"() {
     when:
     def result = projectQuery.asLabels("", 10)
-    println result
     then:
-    result.isEmpty() != true
+    result.size() == 3
   }
 
 }
