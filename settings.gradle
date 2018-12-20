@@ -1,5 +1,5 @@
 rootProject.name = 'pico-erp-project'
-include 'project-api'
-include 'project-impl'
-include 'project-test'
+include 'api'
+include 'impl'
+include 'test'
 
