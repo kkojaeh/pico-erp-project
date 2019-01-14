@@ -2,9 +2,6 @@ banner:
   location: classpath:project/banner.txt
 
 spring:
-  profiles:
-    include:
-      - test-cfg
   application:
     name: pico-project
   session:
