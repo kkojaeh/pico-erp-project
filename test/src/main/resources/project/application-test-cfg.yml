@@ -2,8 +2,8 @@ data:
   projects:
     - id: sample-project1
       name: 샘플 프로젝트1
-      customerId: CUST1
-      managerId: ysh
+      customer-id: CUST1
+      manager-id: ysh
       customer-manager-contact:
         name: "고객1 회사 담당자"
         email: "manager@company.com"
@@ -12,8 +12,8 @@ data:
         fax-number: "+821011111111"
     - id: sample-project2
       name: 샘플 프로젝트2
-      customerId: CUST2
-      managerId: ysh
+      customer-id: CUST2
+      manager-id: ysh
       customer-manager-contact:
         name: "고객2 회사 담당자"
         email: "manager@company.com"
@@ -22,8 +22,8 @@ data:
         fax-number: "+821011111111"
     - id: sample-project3
       name: 샘플 프로젝트3
-      customerId: CUST1
-      managerId: ysh
+      customer-id: CUST1
+      manager-id: ysh
       customer-manager-contact:
         name: "고객1 회사 담당자"
         email: "manager@company.com"
