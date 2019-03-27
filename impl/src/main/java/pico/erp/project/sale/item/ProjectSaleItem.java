@@ -2,7 +2,7 @@ package pico.erp.project.sale.item;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import javax.persistence.Id;
 import lombok.AccessLevel;
@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import pico.erp.audit.annotation.Audit;
 import pico.erp.item.ItemData;
 import pico.erp.project.Project;
 import pico.erp.project.sale.item.ProjectSaleItemMessages.CreateRequest;
@@ -26,7 +25,6 @@ import pico.erp.project.sale.item.ProjectSaleItemMessages.UpdateResponse;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "id")
-@Audit(alias = "project-sale-item")
 public class ProjectSaleItem implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -48,11 +46,11 @@ public class ProjectSaleItem implements Serializable {
 
   BigDecimal paidQuantity;
 
-  OffsetDateTime expirationDate;
+  LocalDateTime expirationDate;
 
-  OffsetDateTime expiredDate;
+  LocalDateTime expiredDate;
 
-  OffsetDateTime createdDate;
+  LocalDateTime createdDate;
 
   boolean expired;
 
@@ -86,7 +84,7 @@ public class ProjectSaleItem implements Serializable {
   public ProjectSaleItemMessages.ExpireResponse apply(
     ProjectSaleItemMessages.ExpireRequest request) {
     this.expired = true;
-    this.expiredDate = OffsetDateTime.now();
+    this.expiredDate = LocalDateTime.now();
     return new ExpireResponse(Collections.emptyList());
   }
 

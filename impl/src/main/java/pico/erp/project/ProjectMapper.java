@@ -1,6 +1,7 @@
 package pico.erp.project;
 
 import java.util.Optional;
+import kkojaeh.spring.boot.component.Take;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -21,12 +22,10 @@ import pico.erp.user.UserService;
 @Mapper
 public abstract class ProjectMapper {
 
-  @Lazy
-  @Autowired
+  @Take
   private CompanyService companyService;
 
-  @Lazy
-  @Autowired
+  @Take
   private UserService userService;
 
   @Lazy
@@ -94,11 +93,6 @@ public abstract class ProjectMapper {
 
   public abstract ProjectMessages.DeleteRequest map(DeleteRequest request);
 
-  public ProjectEntity entity(ProjectId projectId) {
-    return Optional.ofNullable(projectId)
-      .map(projectEntityRepository::findOne)
-      .orElse(null);
-  }
 
   @Mappings({
     @Mapping(target = "customerId", source = "customer.id"),

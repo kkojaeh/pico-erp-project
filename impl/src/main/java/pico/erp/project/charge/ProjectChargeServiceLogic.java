@@ -2,20 +2,18 @@ package pico.erp.project.charge;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import kkojaeh.spring.boot.component.Give;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pico.erp.audit.AuditService;
 import pico.erp.project.ProjectId;
-import pico.erp.shared.Public;
 import pico.erp.shared.event.EventPublisher;
 
 @SuppressWarnings("Duplicates")
 @Service
-@Public
+@Give
 @Transactional
 @Validated
 public class ProjectChargeServiceLogic implements ProjectChargeService {
@@ -29,10 +27,6 @@ public class ProjectChargeServiceLogic implements ProjectChargeService {
   @Autowired
   private ProjectChargeMapper mapper;
 
-  @Lazy
-  @Autowired
-  private AuditService auditService;
-
   @Override
   public ProjectChargeData create(ProjectChargeRequests.CreateRequest request) {
     val charge = new ProjectCharge();
@@ -41,7 +35,6 @@ public class ProjectChargeServiceLogic implements ProjectChargeService {
       throw new ProjectChargeExceptions.AlreadyExistsException();
     }
     val created = projectChargeRepository.create(charge);
-    auditService.commit(created);
     eventPublisher.publishEvents(response.getEvents());
     return mapper.map(created);
   }
@@ -52,7 +45,6 @@ public class ProjectChargeServiceLogic implements ProjectChargeService {
       .orElseThrow(ProjectChargeExceptions.NotFoundException::new);
     val response = charge.apply(mapper.map(request));
     projectChargeRepository.deleteBy(charge.getId());
-    auditService.delete(charge);
     eventPublisher.publishEvents(response.getEvents());
   }
 
@@ -81,7 +73,6 @@ public class ProjectChargeServiceLogic implements ProjectChargeService {
       .orElseThrow(ProjectChargeExceptions.NotFoundException::new);
     val response = charge.apply(mapper.map(request));
     projectChargeRepository.update(charge);
-    auditService.commit(charge);
     eventPublisher.publishEvents(response.getEvents());
   }
 }

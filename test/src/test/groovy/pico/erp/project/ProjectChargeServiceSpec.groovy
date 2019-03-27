@@ -1,25 +1,26 @@
 package pico.erp.project
 
+import kkojaeh.spring.boot.component.SpringBootTestComponent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.ComponentScan
-import org.springframework.context.annotation.Configuration
 import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
+import pico.erp.company.CompanyApplication
+import pico.erp.item.ItemApplication
 import pico.erp.project.charge.ProjectChargeExceptions
 import pico.erp.project.charge.ProjectChargeId
 import pico.erp.project.charge.ProjectChargeRequests
 import pico.erp.project.charge.ProjectChargeService
-import pico.erp.shared.IntegrationConfiguration
+import pico.erp.shared.TestParentApplication
+import pico.erp.user.UserApplication
 import spock.lang.Specification
 
-@SpringBootTest(classes = [IntegrationConfiguration])
+@SpringBootTest(classes = [ProjectApplication, TestConfig])
+@SpringBootTestComponent(parent = TestParentApplication, siblings = [UserApplication, CompanyApplication, ItemApplication])
 @Transactional
 @Rollback
 @ActiveProfiles("test")
-@Configuration
-@ComponentScan("pico.erp.config")
 class ProjectChargeServiceSpec extends Specification {
 
   @Autowired

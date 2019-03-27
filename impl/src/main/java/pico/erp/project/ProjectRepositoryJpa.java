@@ -32,23 +32,23 @@ public class ProjectRepositoryJpa implements ProjectRepository {
 
   @Override
   public void deleteBy(ProjectId id) {
-    repository.delete(id);
+    repository.deleteById(id);
   }
 
   @Override
   public boolean exists(ProjectId id) {
-    return repository.exists(id);
+    return repository.existsById(id);
   }
 
   @Override
   public Optional<Project> findBy(ProjectId id) {
-    return Optional.ofNullable(repository.findOne(id))
+    return repository.findById(id)
       .map(mapper::domain);
   }
 
   @Override
   public void update(Project project) {
-    val entity = repository.findOne(project.getId());
+    val entity = repository.findById(project.getId()).get();
     mapper.pass(mapper.entity(project), entity);
     repository.save(entity);
   }

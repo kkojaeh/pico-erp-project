@@ -1,18 +1,16 @@
 package pico.erp.project;
 
+import kkojaeh.spring.boot.component.Give;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import pico.erp.audit.AuditService;
-import pico.erp.shared.Public;
 import pico.erp.shared.event.EventPublisher;
 
 @SuppressWarnings("Duplicates")
 @Service
-@Public
+@Give
 @Transactional
 @Validated
 public class ProjectServiceLogic implements ProjectService {
@@ -26,10 +24,6 @@ public class ProjectServiceLogic implements ProjectService {
   @Autowired
   private ProjectMapper mapper;
 
-  @Lazy
-  @Autowired
-  private AuditService auditService;
-
   @Override
   public ProjectData create(ProjectRequests.CreateRequest request) {
     val project = new Project();
@@ -38,7 +32,6 @@ public class ProjectServiceLogic implements ProjectService {
       throw new ProjectExceptions.AlreadyExistsException();
     }
     val created = projectRepository.create(project);
-    auditService.commit(created);
     eventPublisher.publishEvents(response.getEvents());
     return mapper.map(created);
   }
@@ -49,7 +42,6 @@ public class ProjectServiceLogic implements ProjectService {
       .orElseThrow(ProjectExceptions.NotFoundException::new);
     val response = project.apply(mapper.map(request));
     projectRepository.deleteBy(project.getId());
-    auditService.delete(project);
     eventPublisher.publishEvents(response.getEvents());
   }
 
@@ -72,7 +64,6 @@ public class ProjectServiceLogic implements ProjectService {
       .orElseThrow(ProjectExceptions.NotFoundException::new);
     val response = project.apply(mapper.map(request));
     projectRepository.update(project);
-    auditService.commit(project);
     eventPublisher.publishEvents(response.getEvents());
   }
 }

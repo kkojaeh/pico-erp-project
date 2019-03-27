@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import pico.erp.attachment.AttachmentId;
-import pico.erp.audit.annotation.Audit;
 import pico.erp.comment.subject.CommentSubjectId;
 import pico.erp.company.CompanyData;
 import pico.erp.project.ProjectEvents.CreatedEvent;
@@ -27,7 +26,6 @@ import pico.erp.user.UserData;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "id")
-@Audit(alias = "project")
 public class Project implements Serializable {
 
   private static final long serialVersionUID = 1L;

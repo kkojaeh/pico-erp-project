@@ -40,12 +40,12 @@ public class ProjectChargeRepositoryJpa implements ProjectChargeRepository {
 
   @Override
   public void deleteBy(ProjectChargeId id) {
-    repository.delete(id);
+    repository.deleteById(id);
   }
 
   @Override
   public boolean exists(ProjectChargeId id) {
-    return repository.exists(id);
+    return repository.existsById(id);
   }
 
   @Override
@@ -56,13 +56,13 @@ public class ProjectChargeRepositoryJpa implements ProjectChargeRepository {
 
   @Override
   public Optional<ProjectCharge> findBy(ProjectChargeId id) {
-    return Optional.ofNullable(repository.findOne(id))
+    return repository.findById(id)
       .map(mapper::domain);
   }
 
   @Override
   public void update(ProjectCharge projectCharge) {
-    val entity = repository.findOne(projectCharge.getId());
+    val entity = repository.findById(projectCharge.getId()).get();
     mapper.pass(mapper.entity(projectCharge), entity);
     repository.save(entity);
   }
