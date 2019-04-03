@@ -1,7 +1,7 @@
 package pico.erp.project;
 
 import java.util.HashMap;
-import kkojaeh.spring.boot.component.Give;
+import kkojaeh.spring.boot.component.ComponentBean;
 import kkojaeh.spring.boot.component.SpringBootComponent;
 import kkojaeh.spring.boot.component.SpringBootComponentBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.util.UriTemplate;
+import pico.erp.ComponentDefinition;
 import pico.erp.attachment.category.AttachmentCategory;
 import pico.erp.attachment.category.AttachmentCategory.AttachmentCategoryImpl;
 import pico.erp.attachment.category.AttachmentCategoryId;
@@ -36,7 +37,7 @@ import pico.erp.shared.data.Role;
 @Import(value = {
   SharedConfiguration.class
 })
-public class ProjectApplication {
+public class ProjectApplication implements ComponentDefinition {
 
   public static void main(String[] args) {
     new SpringBootComponentBuilder()
@@ -44,14 +45,14 @@ public class ProjectApplication {
       .run(args);
   }
 
-  @Give
   @Bean
+  @ComponentBean(host = false)
   public AttachmentCategory attachmentCategory() {
     return new AttachmentCategoryImpl(AttachmentCategoryId.from("project"), "프로젝트");
   }
 
   @Bean
-  @Give
+  @ComponentBean(host = false)
   public CommentSubjectType commentSubjectType(
     final @Value("${comment.uri.project}") String template) {
     return new CommentSubjectTypeImpl(
@@ -65,15 +66,20 @@ public class ProjectApplication {
     );
   }
 
+  @Override
+  public Class<?> getComponentClass() {
+    return ProjectApplication.class;
+  }
+
 
   @Bean
-  @Give
+  @ComponentBean(host = false)
   public Role projectAccessorRole() {
     return Roles.PROJECT_ACCESSOR;
   }
 
   @Bean
-  @Give
+  @ComponentBean(host = false)
   public Role projectManagerRole() {
     return Roles.PROJECT_MANAGER;
   }
