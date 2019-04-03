@@ -26,7 +26,7 @@ interface ProjectSaleItemEntityRepository extends
     @Param("projectId") ProjectId projectId);
 
   @Query("SELECT psi FROM ProjectSaleItem psi WHERE psi.projectId = :projectId AND psi.itemId = :itemId")
-  ProjectSaleItemEntity findOne(
+  Optional<ProjectSaleItemEntity> findBy(
     @Param("projectId") ProjectId projectId, @Param("itemId") ItemId itemId);
 
 }
@@ -50,12 +50,12 @@ public class ProjectSaleItemRepositoryJpa implements ProjectSaleItemRepository {
 
   @Override
   public void deleteBy(ProjectSaleItemId id) {
-    repository.delete(id);
+    repository.deleteById(id);
   }
 
   @Override
   public boolean exists(ProjectSaleItemId id) {
-    return repository.exists(id);
+    return repository.existsById(id);
   }
 
   @Override
@@ -71,19 +71,19 @@ public class ProjectSaleItemRepositoryJpa implements ProjectSaleItemRepository {
 
   @Override
   public Optional<ProjectSaleItem> findBy(ProjectId projectId, ItemId itemId) {
-    return Optional.ofNullable(repository.findOne(projectId, itemId))
+    return repository.findBy(projectId, itemId)
       .map(mapper::domain);
   }
 
   @Override
   public Optional<ProjectSaleItem> findBy(ProjectSaleItemId id) {
-    return Optional.ofNullable(repository.findOne(id))
+    return repository.findById(id)
       .map(mapper::domain);
   }
 
   @Override
   public void update(ProjectSaleItem projectSaleItem) {
-    val entity = repository.findOne(projectSaleItem.getId());
+    val entity = repository.findById(projectSaleItem.getId()).get();
     mapper.pass(mapper.entity(projectSaleItem), entity);
     repository.save(entity);
   }

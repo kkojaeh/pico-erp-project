@@ -1,6 +1,7 @@
 package pico.erp.project;
 
 import java.util.Optional;
+import kkojaeh.spring.boot.component.ComponentAutowired;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -21,33 +22,15 @@ import pico.erp.user.UserService;
 @Mapper
 public abstract class ProjectMapper {
 
-  @Lazy
-  @Autowired
+  @ComponentAutowired
   private CompanyService companyService;
 
-  @Lazy
-  @Autowired
+  @ComponentAutowired
   private UserService userService;
 
   @Lazy
   @Autowired
   private ProjectRepository projectRepository;
-
-  @Lazy
-  @Autowired
-  private ProjectEntityRepository projectEntityRepository;
-
-  protected UserData map(UserId userId) {
-    return Optional.ofNullable(userId)
-      .map(userService::get)
-      .orElse(null);
-  }
-
-  protected CompanyData map(CompanyId companyId) {
-    return Optional.ofNullable(companyId)
-      .map(companyService::get)
-      .orElse(null);
-  }
 
   public Project domain(ProjectEntity entity) {
     return Project.builder()
@@ -80,6 +63,18 @@ public abstract class ProjectMapper {
   })
   public abstract ProjectEntity entity(Project project);
 
+  protected UserData map(UserId userId) {
+    return Optional.ofNullable(userId)
+      .map(userService::get)
+      .orElse(null);
+  }
+
+  protected CompanyData map(CompanyId companyId) {
+    return Optional.ofNullable(companyId)
+      .map(companyService::get)
+      .orElse(null);
+  }
+
   @Mappings({
     @Mapping(target = "customer", source = "customerId"),
     @Mapping(target = "manager", source = "managerId")
@@ -94,11 +89,6 @@ public abstract class ProjectMapper {
 
   public abstract ProjectMessages.DeleteRequest map(DeleteRequest request);
 
-  public ProjectEntity entity(ProjectId projectId) {
-    return Optional.ofNullable(projectId)
-      .map(projectEntityRepository::findOne)
-      .orElse(null);
-  }
 
   @Mappings({
     @Mapping(target = "customerId", source = "customer.id"),

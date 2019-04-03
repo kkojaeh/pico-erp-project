@@ -1,6 +1,7 @@
 package pico.erp.project.sale.item;
 
 import java.util.Optional;
+import kkojaeh.spring.boot.component.ComponentAutowired;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -21,8 +22,7 @@ public abstract class ProjectSaleItemMapper {
   @Autowired
   protected ProjectMapper projectMapper;
 
-  @Lazy
-  @Autowired
+  @ComponentAutowired
   private ItemService itemService;
 
   public ProjectSaleItem domain(ProjectSaleItemEntity entity) {

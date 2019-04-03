@@ -1,7 +1,7 @@
 package pico.erp.project.sale.item;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -75,11 +75,11 @@ public class ProjectSaleItemEntity {
 
   @CreatedDate
   @Column(updatable = false)
-  OffsetDateTime createdDate;
+  LocalDateTime createdDate;
 
-  OffsetDateTime expirationDate;
+  LocalDateTime expirationDate;
 
-  OffsetDateTime expiredDate;
+  LocalDateTime expiredDate;
 
   boolean expired;
 

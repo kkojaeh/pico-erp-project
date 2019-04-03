@@ -2,7 +2,7 @@ package pico.erp.project.charge;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import javax.persistence.Id;
 import lombok.AccessLevel;
@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import pico.erp.audit.annotation.Audit;
 import pico.erp.project.Project;
 import pico.erp.project.charge.ProjectChargeMessages.CreateResponse;
 import pico.erp.project.charge.ProjectChargeMessages.DeleteResponse;
@@ -22,7 +21,6 @@ import pico.erp.project.charge.ProjectChargeMessages.UpdateResponse;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "id")
-@Audit(alias = "project-charge")
 public class ProjectCharge implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -40,13 +38,13 @@ public class ProjectCharge implements Serializable {
 
   boolean charged;
 
-  OffsetDateTime chargedDate;
+  LocalDateTime chargedDate;
 
   boolean paid;
 
-  OffsetDateTime paidDate;
+  LocalDateTime paidDate;
 
-  OffsetDateTime createdDate;
+  LocalDateTime createdDate;
 
   public ProjectCharge() {
     unitPrice = BigDecimal.ZERO;
