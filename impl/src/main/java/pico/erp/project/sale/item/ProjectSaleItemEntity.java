@@ -1,7 +1,7 @@
 package pico.erp.project.sale.item;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -10,13 +10,13 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Index;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pico.erp.item.ItemId;
 import pico.erp.project.ProjectId;
@@ -73,14 +73,18 @@ public class ProjectSaleItemEntity {
   @CreatedBy
   Auditor createdBy;
 
-  @CreatedDate
   @Column(updatable = false)
-  LocalDateTime createdDate;
+  OffsetDateTime createdDate;
 
-  LocalDateTime expirationDate;
+  OffsetDateTime expirationDate;
 
-  LocalDateTime expiredDate;
+  OffsetDateTime expiredDate;
 
   boolean expired;
+
+  @PrePersist
+  private void onCreate() {
+    createdDate = OffsetDateTime.now();
+  }
 
 }

@@ -1,7 +1,7 @@
 package pico.erp.project.sale.item;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -29,7 +29,7 @@ public interface ProjectSaleItemMessages {
     @NotNull
     BigDecimal unitPrice;
 
-    LocalDateTime expirationDate;
+    OffsetDateTime expirationDate;
 
   }
 

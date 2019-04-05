@@ -2,7 +2,7 @@ package pico.erp.project.sale.item;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -35,12 +35,12 @@ public class ProjectSaleItemData implements Serializable {
 
   BigDecimal paidQuantity;
 
-  LocalDateTime expirationDate;
+  OffsetDateTime expirationDate;
 
-  LocalDateTime expiredDate;
+  OffsetDateTime expiredDate;
 
   boolean expired;
 
-  LocalDateTime createdDate;
+  OffsetDateTime createdDate;
 
 }

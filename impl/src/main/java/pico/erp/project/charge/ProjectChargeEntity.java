@@ -1,7 +1,7 @@
 package pico.erp.project.charge;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -10,13 +10,13 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Index;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pico.erp.project.ProjectId;
 import pico.erp.shared.TypeDefinitions;
@@ -60,20 +60,25 @@ public class ProjectChargeEntity {
   @CreatedBy
   Auditor createdBy;
 
-  @CreatedDate
   @Column(updatable = false)
-  LocalDateTime createdDate;
+  OffsetDateTime createdDate;
 
 
   @Column
   boolean charged;
 
   @Column
-  LocalDateTime chargedDate;
+  OffsetDateTime chargedDate;
 
   @Column
   boolean paid;
 
   @Column
-  LocalDateTime paidDate;
+  OffsetDateTime paidDate;
+
+  @PrePersist
+  private void onCreate() {
+    createdDate = OffsetDateTime.now();
+  }
+
 }

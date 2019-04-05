@@ -2,7 +2,7 @@ package pico.erp.project.charge;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -30,12 +30,12 @@ public class ProjectChargeData implements Serializable {
 
   boolean charged;
 
-  LocalDateTime chargedDate;
+  OffsetDateTime chargedDate;
 
   boolean paid;
 
-  LocalDateTime paidDate;
+  OffsetDateTime paidDate;
 
-  LocalDateTime createdDate;
+  OffsetDateTime createdDate;
 
 }
